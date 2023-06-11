@@ -1,12 +1,20 @@
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
-import scrapy
+from scrapy.item import Item, Field
 
 
-class FoodNetworkItem(scrapy.Item):
+class FoodNetworkRecipe(Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
+    title = Field()
+    author = Field()
+    # rating = Field()
+    # review_count = Field()
+    # level = Field()
+    # total_time = Field()
+    # active_time = Field()
+    # servings = Field()
+    # TO DO: get nutrition info
+    ingredients = Field()
+    # directions = Field()
+    # note = Field()
+    # categories = Field()
+    # comments = Field()
     pass
