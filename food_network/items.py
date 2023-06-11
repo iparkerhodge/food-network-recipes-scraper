@@ -13,7 +13,7 @@ class FoodNetworkRecipe(Item):
     # servings = Field()
     # TO DO: get nutrition info
     ingredients = Field()
-    # directions = Field()
+    directions = Field()
     # note = Field()
     # categories = Field()
     # comments = Field()

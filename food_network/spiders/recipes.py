@@ -31,12 +31,19 @@ class RecipesSpider(scrapy.Spider):
         # Ingredients
         recipe['ingredients'] = []
         for ingredient in response.xpath(".//span[@class='o-Ingredients__a-Ingredient--CheckboxLabel']/text()").extract():
-            if ingredient != 'Deselect All': recipe['ingredients'].append(ingredient)
+            if ingredient != 'Deselect All': recipe['ingredients'].append(" ".join(ingredient.split()))
+
+        # Directions
+        recipe['directions'] = []
+        directions_list = response.xpath(".//li[@class='o-Method__m-Step']/text()").extract()
+        for direction in directions_list:
+            formatted_direction = " ".join(direction.replace("\n", "").strip().split())
+            recipe['directions'].append(formatted_direction)
         
         # Author
-        # recipe['author'] = response.xpath(".//div[@class='o-Attribution__m-Author']/span[@class='o-Attribution__a-Author--Prefix']/span[@class='o-Attribution__a-Name']/a/text()").extract_first()
-        author_span = response.xpath(".//span[@class='o-Attribution__a-Name']")[0]
-        if author_span:
+        attribution_spans = response.xpath(".//span[@class='o-Attribution__a-Name']")
+        if attribution_spans:
+            author_span = attribution_spans[0]
             if author_span.xpath(".//a/text()").extract_first():
                 recipe['author'] = author_span.xpath(".//a/text()").extract_first()
             else:
