@@ -39,6 +39,11 @@ class RecipesSpider(scrapy.Spider):
         for direction in directions_list:
             formatted_direction = " ".join(direction.replace("\n", "").strip().split())
             recipe['directions'].append(formatted_direction)
+
+        # Categories
+        recipe['categories'] = []
+        for category in response.xpath(".//a[@class='o-Capsule__a-Tag a-Tag']/text()").extract():
+            recipe['categories'].append(" ".join(category.split()))
         
         # Author
         attribution_spans = response.xpath(".//span[@class='o-Attribution__a-Name']")
@@ -51,5 +56,15 @@ class RecipesSpider(scrapy.Spider):
                 recipe['author'] = " ".join(full_string.split()).replace('RECIPE COURTESY OF ', '').replace('Recipe courtesy of ', '')
         else:
             recipe['author'] = None
+
+        # Level - Easy, Hard, etc.
+        recipe["level"] = response.xpath(".//ul[@class='o-RecipeInfo__m-Level']/li/span[@class='o-RecipeInfo__a-Description']/text()").extract_first()
+
+        # Time (total and active)
+        time_ul = response.xpath(".//ul[@class='o-RecipeInfo__m-Time']")
+
+        recipe['total_time'] = time_ul.xpath(".//li/span[@class='o-RecipeInfo__a-Description m-RecipeInfo__a-Description--Total']/text()").extract_first()
+        recipe['active_time'] = time_ul.xpath(".//li[2]/span[@class='o-RecipeInfo__a-Description']/text()").extract_first()
+
         print(recipe)
         yield recipe
