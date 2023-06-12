@@ -66,5 +66,12 @@ class RecipesSpider(scrapy.Spider):
         recipe['total_time'] = time_ul.xpath(".//li/span[@class='o-RecipeInfo__a-Description m-RecipeInfo__a-Description--Total']/text()").extract_first()
         recipe['active_time'] = time_ul.xpath(".//li[2]/span[@class='o-RecipeInfo__a-Description']/text()").extract_first()
 
+        # Servings
+        recipe['servings'] = response.xpath(".//ul[@class='o-RecipeInfo__m-Yield']/li[1]/span[@class='o-RecipeInfo__a-Description']/text()").extract_first()
+
+        # Image
+        src = response.xpath(".//section[contains(@class, 'o-RecipeLead')]/div/div/div/img[@class='m-MediaBlock__a-Image a-Image']/@src").extract_first()
+        if src: recipe['image_url'] = f"https:{src}"
+
         print(recipe)
         yield recipe

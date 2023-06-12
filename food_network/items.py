@@ -10,11 +10,12 @@ class FoodNetworkRecipe(Item):
     level = Field()
     total_time = Field()
     active_time = Field()
-    # servings = Field()
+    servings = Field()
     # TO DO: get nutrition info
     ingredients = Field()
     directions = Field()
     # note = Field()
     categories = Field()
     # comments = Field()
+    image_url = Field()
     pass
