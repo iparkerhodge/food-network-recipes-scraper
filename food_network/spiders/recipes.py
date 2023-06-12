@@ -8,19 +8,25 @@ class RecipesSpider(scrapy.Spider):
 
     def start_requests(self):
         url = "https://www.foodnetwork.com/recipes/recipes-a-z/123"
-        yield SplashRequest(url, callback=self.parse, args={'wait': 0.5})
+        yield SplashRequest(url, callback=self.parse_tab, args={'wait': 0.5})
 
     def parse(self, response):
         # links for the tabs "123", "A", "B", "C"...
-        # ignore for now, just try and get recipes on first tab
-        # all_alphabet_tab_links = response.xpath(".//ul[@class='o-IndexPagination__m-List']/li/a/@href").extract()
+        all_alphabet_tab_links = response.xpath(".//ul[@class='o-IndexPagination__m-List']/li/a/@href").extract()
+        for tab in all_alphabet_tab_links:
+            if tab == "//www.foodnetwork.com/recipes/recipes-a-z/123": continue # starts here, so don't repeat
 
+            yield SplashRequest(url=f"https:{tab}", callback=self.parse_tab)
+
+    def parse_tab(self, response):
         links_to_recipes_on_page = response.xpath(".//div[@class='l-Columns l-Columns--2up']/ul/li/a/@href").extract()
         for link in links_to_recipes_on_page:
-            # link formatted as: "//www.foodnetwork.com/recipes/ina-garten/16-bean-pasta-e-fagioli-3612570"
             url = f'https:{link}'
             yield SplashRequest(url, callback=self.parse_recipe, args={'wait': 1.5})
 
+        next_page = response.xpath(".//a[contains(@class, 'o-Pagination__a-NextButton')][not(contains(@class, 'is-Disabled'))]/@href").extract_first()
+        if next_page:
+            yield SplashRequest(url=f"https:{next_page}", callback=self.parse_tab)
         pass
 
     def parse_recipe(self, response):
