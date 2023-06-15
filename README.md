@@ -15,7 +15,7 @@ You may want to use Anaconda or some other environment manager.
 #### Installations
 1. Clone this repository from within your desired directory.
 2. Check that Python 3 is installed `python3 --version`
-3. Check that Pip is installed `pip -- version`
+3. Check that Pip is installed `pip --version`
 4. Install Scrapy. If using Anaconda run `conda install -c conda-forge scrapy`. Or `pip install Scrapy` otherwise.
 5. Install Splash. If you do not have docker installed on your system, first install [Docker](https://www.docker.com/). Then, from your terminal run `docker pull scrapinghub/splash` to get a Splash image.
 6. Run `pip install scrapy-splash` to get the scrapy-splash library.
