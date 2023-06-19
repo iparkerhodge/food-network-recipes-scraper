@@ -5,6 +5,7 @@ class FoodNetworkRecipe(Item):
     # define the fields for your item here like:
     title = Field()
     author = Field()
+    author_profile = Field()
     # rating = Field()
     # review_count = Field()
     level = Field()

@@ -57,6 +57,7 @@ class RecipesSpider(scrapy.Spider):
             author_span = attribution_spans[0]
             if author_span.xpath(".//a/text()").extract_first():
                 recipe['author'] = author_span.xpath(".//a/text()").extract_first()
+                recipe['author'] = author_span.xpath(".//a/@href").extract_first()
             else:
                 full_string = author_span.xpath(".//text()").extract_first()
                 recipe['author'] = " ".join(full_string.split()).replace('RECIPE COURTESY OF ', '').replace('Recipe courtesy of ', '')
