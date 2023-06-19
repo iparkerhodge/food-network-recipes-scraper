@@ -21,5 +21,5 @@ You may want to use Anaconda or some other environment manager.
 6. Run `pip install scrapy-splash` to get the scrapy-splash library.
 
 #### Running the scraper
-1. First, start Splash with `docker run -it -p 8050:8050 —rm scraping hub/splash`
+1. First, start Splash with `docker run -p 8050:8050 scrapinghub/splash`
 2. Then run the spider with `scrapy crawl recipes -o test.json` to get a test output from the spider.
